@@ -1,0 +1,565 @@
+<!-- search.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Anime Website - Search Results</title>
+  <script src="java.js"></script>
+  <link rel="stylesheet" href="Styles2.css">
+  <link rel="icon" type="image/x-icon" href="instant/A.ico">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #222222;
+      color: #fff;
+    }
+
+    header {
+      background-color: #2a2a2a;
+      padding: 0.5em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 1.5cm;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .menu-icon,
+    .search-icon,
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000;
+      margin: 0 1em;
+    }
+
+    .title {
+      display: flex;
+      align-items: flex-start;
+      margin-right: auto;
+    }
+
+    .logo {
+      height: 1.2cm;
+      width: auto;
+      max-width: 100%;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 7px;
+    }
+
+    .search-input-container {
+      display: flex;
+      align-items: center;
+    }
+
+.search-input {
+  padding: 12px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #444;
+  color: #fff;
+  width: 750px;
+}
+
+    .search-button {
+      background-color: #ff0000;
+      color: #fff;
+      padding: 12px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 80px;
+    }
+
+.search-results {
+  /* Add any specific styles for search results */
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap; /* Allow tiles to wrap to the next line */
+  justify-content: space-evenly; /* Adjust as needed for spacing */
+}
+
+    /* Include Styles2.css styles here */
+    .modal {
+      /* ... (copy the contents) ... */
+    }
+
+    /* ... (copy any additional styles from Styles2.css) ... */
+.all-folders-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow tiles to wrap to the next line */
+  justify-content: space-between;  align-items: top;
+  width: 100%; /* Make each container take the full width of the parent */
+  height: 400px;
+  margin: 0px;
+  padding: 10px;
+}
+h2 {
+  color: #fff; /* Set the color as needed */
+  text-align: center; /* Center the text */
+  margin-bottom: 10px; /* Add some space between the text and the tiles */
+  font-weight: bold; /* Make the text bold */
+  font-size: 40px; /* Set the font size as needed */
+  text-decoration: underline; /* Add an underline */
+  text-decoration-color: #ff0000; /* Set the underline color to red */
+}
+
+.folder-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 5px;
+  border: 2px solid #ff0000;
+  border-radius: 5px;
+  background-color: #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add smooth transition */
+  max-width: 200px; /* Limit the maximum width of each container */
+  width: 100%; /* Make each container take the full width of the parent */
+  margin-bottom: 10px; /* Add margin-bottom for spacing between tiles */
+}
+
+.folder-container:hover {
+  transform: scale(1.07); /* Increase size on hover */
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Add a red spotlight effect on hover */
+}
+    .folder-image {
+      width: 200px; /* Adjust the width as needed */
+      height: 300px; /* Adjust the height as needed */
+      object-fit: cover; /* Maintain aspect ratio */
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+.folder-name {
+  font-size: 22px;
+  font-weight: bold; /* Add bold font-weight */
+  text-decoration: underline; /* Add underline */
+  text-decoration-color: #ff0000; /* Set red underline color */
+}
+.all-folders-wrapper {
+  text-align: center;
+}
+
+.all-anime-button {
+  /* Add specific styles for the "All Anime" button inside the all folder container */
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px; /* Add margin as needed */
+}
+
+.series-button,
+.movies-button,
+.all-anime-button {
+  background-color: transparent; /* Set background to transparent */
+  color: #fff; /* Adjust the text color as needed */
+  padding: 8px 120px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Remove default underline */
+  font-size: 30px;
+  font-weight: bold;
+  position: relative; /* Set relative position for pseudo-element */
+}
+
+.series-button:after,
+.movies-button:after,
+.all-anime-button:after {
+  content: ''; /* Add content for pseudo-element */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px; /* Underline height */
+  background-color: #ff0000; /* Underline color */
+  transform: scaleX(0); /* Initially set to scale 0 */
+  transform-origin: bottom left; /* Set transform origin to bottom left */
+  transition: transform 0.3s ease-in-out; /* Add smooth transition */
+}
+
+.series-button:hover:after,
+.movies-button:hover:after,
+.all-anime-button:hover:after {
+  transform: scaleX(1); /* Scale to show underline on hover */
+}
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="menu-icon" onclick="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </div>
+    <h1 class="title">
+      <img class="logo" src="instant/ANIFLIX.png" alt="ANIFLIX Logo">
+    </h1>
+
+    <div class="search-input-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search For Anime...">
+      <button class="search-button" onclick="searchVideos()">Search</button>
+    </div>
+
+    <div class="profile-icon" onclick="toggleProfileInfo()">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="7" r="4" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""></circle>
+  <path d="M4 21V17C4 15.8954 4.89543 15 6 15H18C19.1046 15 20 15.8954 20 17V21" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""></path>
+</svg>
+    </div>
+      </div>
+    </div>
+  </header>
+
+<main>
+  <div class="search-results" id="searchResultsContainer">
+    <!-- Results will be dynamically added here after a search -->
+  </div>
+
+  <div class="action-buttons">
+    <button class="series-button" onclick="handleSeriesClick()">Series</button>
+    <button class="all-anime-button" onclick="handleAllAnimeClick()">All Anime</button>
+    <button class="movies-button" onclick="handleMoviesClick()">Movies</button>
+  </div>
+
+  <div class="all-folders-wrapper">
+    <h2></h2>
+    <div class="all-folders all-folders-container" id="allFoldersContainer">
+      <!-- Folders will be dynamically added here when the page loads -->
+    </div>
+
+    <!-- Container for movies -->
+    <div id="moviesContainer" style="display: none;">
+      <!-- ... content for movies ... -->
+    </div>
+
+    <!-- Container for series -->
+    <div id="seriesContainer" style="display: none;">
+      <!-- ... content for series ... -->
+    </div>
+  </div>
+</main>
+
+<!-- Your HTML content remains unchanged -->
+
+<script>
+  async function searchVideos() {
+    const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+    const searchResultsContainer = document.getElementById('searchResultsContainer');
+
+    // Clear previous search results
+    searchResultsContainer.innerHTML = '';
+
+    try {
+      if (searchInput !== '') {
+        const apiKey = '42605q5ytvlhmu9eris67';
+        const folderId = '0';
+        const apiUrl = `https://filemoonapi.com/api/folder/list?key=${apiKey}&fld_id=${folderId}`;
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.status === 200) {
+          const folders = data.result.folders;
+
+          if (folders && folders.length > 0) {
+            const filteredFolders = folders.filter(folder => folder && folder.name && folder.name.toLowerCase().includes(searchInput));
+
+            if (filteredFolders.length > 0) {
+              filteredFolders.forEach(folder => {
+                const folderContainer = document.createElement('div');
+                folderContainer.classList.add('folder-container');
+
+                if (folder && folder.name) {
+                  const folderImage = document.createElement('img');
+                  folderImage.classList.add('folder-image');
+
+                  const cloudinaryFolderName = `${folder.name.split('-')[0].replace(/\s+/g, '_')}_${folder.name.split('-')[1].replace(']', '')}`;
+                  const cloudinaryImageUrl = `https://res.cloudinary.com/dadackhrl/image/upload/${cloudinaryFolderName}_Tile.jpg`;
+
+                  folderImage.src = cloudinaryImageUrl;
+                  folderImage.alt = folder.name;
+
+                  const folderName = document.createElement('div');
+                  folderName.classList.add('folder-name');
+
+                  const inclinedFolderIdMatch = folder.name.match(/-(\d+)/);
+
+                  if (inclinedFolderIdMatch) {
+                    const inclinedFolderId = inclinedFolderIdMatch[1];
+                    folderName.textContent = folder.name.split('-')[0];
+                    folderContainer.appendChild(folderImage);
+                    folderContainer.appendChild(folderName);
+
+                    folderContainer.addEventListener('click', () => redirectToDetailPage(folder));
+                    searchResultsContainer.appendChild(folderContainer);
+                  }
+                }
+              });
+            } else {
+              searchResultsContainer.innerHTML = '<h2>NO MATCHING ANIME FOUND IN OUR SERVER</h2>';
+            }
+          } else {
+            searchResultsContainer.innerHTML = '<h2>NO FOLDERS FOUND IN OUR SERVER</h2>';
+          }
+        } else {
+          searchResultsContainer.innerHTML = '<h2>API Error</h2>';
+        }
+      } else {
+        searchResultsContainer.innerHTML = '<h2>Enter the name of Anime to see results</h2>';
+      }
+    } catch (error) {
+      searchResultsContainer.innerHTML = '<h2>Unexpected Error</h2>';
+    }
+  }
+
+  function displayFilesOnPage(folderId, files) {
+    // Your implementation here
+  }
+
+  async function fetchAndDisplayFileList(folderId) {
+    try {
+      const apiKey = '42605q5ytvlhmu9eris67';
+      const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status === 200) {
+        const files = data.result.files;
+      }
+    } catch (error) {
+      console.error('Error fetching and displaying file list:', error);
+    }
+  }
+
+  async function logAllFolderIds() {
+    try {
+      const folders = await fetchFoldersFromAPI();
+      if (folders.length > 0) {
+        folders.forEach(folder => {
+          const inclinedFolderId = folder.name.split('-')[1].replace(']', '');
+        });
+      } else {
+        console.log("No Folders Found");
+      }
+    } catch (error) {
+      console.error('Error fetching folders:', error);
+    }
+  }
+
+  function displayFolder(folder, container) {
+    const folderContainer = document.createElement('div');
+    folderContainer.classList.add('folder-container');
+
+    const folderImage = document.createElement('img');
+    folderImage.classList.add('folder-image');
+
+    const cloudinaryFolderName = `${folder.name.split('-')[0].replace(/\s+/g, '_')}_${folder.name.split('-')[1].replace(']', '')}`;
+    const cloudinaryImageUrl = `https://res.cloudinary.com/dadackhrl/image/upload/${cloudinaryFolderName}_Tile.jpg`;
+
+    folderImage.src = cloudinaryImageUrl;
+    folderImage.alt = folder.name;
+
+    const folderName = document.createElement('div');
+    folderName.classList.add('folder-name');
+    folderName.textContent = folder.name.split('-')[0];
+
+    folderContainer.appendChild(folderImage);
+    folderContainer.appendChild(folderName);
+
+    container.appendChild(folderContainer);
+
+    folderContainer.addEventListener('click', () => redirectToDetailPage(folder));
+  }
+
+  async function fetchAndDisplayFileList(folderId) {
+    try {
+      const apiKey = '42605q5ytvlhmu9eris67';
+      const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status === 200) {
+        const files = data.result;
+        displayFilesOnPage(folderId, files);
+      }
+    } catch (error) {
+      console.error('Error fetching and displaying file list:', error);
+    }
+  }
+
+  function redirectToDetailPage(folder) {
+    const { name: folderName } = folder;
+    const [inclinedFolderName, inclinedFolderId] = folderName.split('-').map(str => str.replace(/[\[\]]/g, ''));
+
+    const cloudinaryFolderName = inclinedFolderName.replace(/\s+/g, '_');
+    const cloudinaryImageUrl = `https://res.cloudinary.com/dadackhrl/image/upload/${cloudinaryFolderName}_${inclinedFolderId}_Tile.jpg`;
+
+    window.location.href = `detail.html?folderId=${encodeURIComponent(inclinedFolderId)}&folderName=${encodeURIComponent(inclinedFolderName)}&tileImage=${encodeURIComponent(cloudinaryImageUrl)}`;
+  }
+
+  async function displayAllFolders() {
+    console.log("Fetching and logging folder IDs...");
+
+    try {
+      const apiKey = '42605q5ytvlhmu9eris67';
+      const folderId = '0';
+      const apiUrl = `https://filemoonapi.com/api/folder/list?key=${apiKey}&fld_id=${folderId}`;
+
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status === 200) {
+        const folders = data.result.folders;
+
+        if (folders && folders.length > 0) {
+          console.log("Folder IDs:");
+          for (const folder of folders) {
+            const inclinedFolderIdMatch = folder.name.match(/-(\d+)/);
+
+            if (inclinedFolderIdMatch) {
+              const inclinedFolderId = inclinedFolderIdMatch[1];
+              const genreAndTypeData = await fetchGenreAndTypeFromJikan(folder.name);
+
+              if (genreAndTypeData) {
+                console.log("Folder Name:", folder.name);
+                console.log("Genre:", genreAndTypeData.genres.join(', '));
+                console.log("Type:", genreAndTypeData.type);
+
+                fetchAndDisplayFileList(inclinedFolderId);
+                displayFolder(folder, document.getElementById('allFoldersContainer'));
+              }
+            }
+          }
+        } else {
+          console.log("No Folders Found");
+        }
+      } else {
+        console.log(`API Error: ${data.msg}`);
+      }
+    } catch (error) {
+      console.error('Error fetching folders:', error);
+    }
+  }
+
+  const MAL_API_URL = 'https://api.jikan.moe/v4';
+
+  async function fetchGenreAndTypeFromJikan(animeName) {
+    try {
+      const apiUrl = `${MAL_API_URL}/anime?q=${animeName}&limit=1`;
+      const response = await fetch(apiUrl);
+
+      if (response.status === 429) {
+        const retryAfter = parseInt(response.headers.get('retry-after')) || 1;
+        console.error(`Rate limit exceeded. Waiting for ${retryAfter} seconds before retrying.`);
+        await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+        return await fetchGenreAndTypeFromJikan(animeName);
+      }
+
+      const data = await response.json();
+
+      if (data.data && data.data.length > 0) {
+        const animeData = data.data[0];
+        const genres = animeData.genres.map(genre => genre.name);
+        const type = animeData.type;
+        const englishName = animeData.title_english || "N/A"; // Default to "N/A" if not available
+
+        console.log(`English Name: ${englishName}`);
+        console.log(`Genres: ${genres.join(', ')}`);
+        console.log(`Type: ${type}`);
+      } else {
+        console.log(`No results found for ${animeName}`);
+      }
+    } catch (error) {
+      console.error('Error fetching MAL data:', error);
+    }
+  }
+
+  window.onload = function () {
+    logAllFolderIds();
+    displayAllFolders();
+  };
+
+  async function fetchAndDisplayFileList(folderId) {
+    try {
+      const apiKey = '42605q5ytvlhmu9eris67';
+      const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status === 200) {
+        const resultsTotal = data.result.results_total;
+        console.log(`Folder ID: ${folderId}`);
+        categorizeAndDisplayShows(folderId, resultsTotal);
+        displayFilesOnPage(folderId, data.result.files);
+      }
+    } catch (error) {
+      console.error('Error fetching and displaying file list:', error);
+    }
+  }
+
+  function displayFoldersByCategory(category) {
+    const allFoldersContainer = document.getElementById('allFoldersContainer');
+
+    allFoldersContainer.style.display = 'none';
+
+    switch (category) {
+      default:
+        allFoldersContainer.style.display = 'block';
+        break;
+    }
+  }
+
+
+  function toggleContainers(containerType) {
+    const allFoldersContainer = document.getElementById('allFoldersContainer');
+
+    switch (containerType) {
+      case 'all':
+        allFoldersContainer.style.display = 'flex';
+        break;
+      default:
+        allFoldersContainer.style.display = 'block';
+        break;
+    }
+  }
+
+  function handleAllAnimeClick() {
+    toggleContainers('all');
+    displayAllFolders();
+  }
+
+  document.getElementById('allAnimeButton').addEventListener('click', handleAllAnimeClick);
+</script>
+
+
+  <footer>
+    <!-- ... (existing footer content) ... -->
+  </footer>
+</body>
+
+</html>

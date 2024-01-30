@@ -1,0 +1,663 @@
+<!-- detail.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Detail - Your Anime Website</title>
+  <script src="java.js"></script>
+  <link rel="stylesheet" href="Styles2.css">
+  <link rel="icon" type="image/x-icon" href="instant/A.ico">
+
+<style>
+/* Additional styles for the detail page can be added here */
+body {
+  /* Add a background photo with less opacity */
+  background: url('instant/Bg.jpg') center/cover fixed no-repeat;
+  opacity: 1; /* Adjust the opacity value (0 to 1) */
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #2b2b2b;
+  color: #fff;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.5); /* Translucent background color */
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4em; /* Set your desired height */
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+    .menu-icon,
+    .search-icon,
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000;
+      margin: 0 1em;
+    }
+    .search-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000;
+      margin-left: 405px;
+      margin-top: 5px;
+    }
+
+.title {
+  display: flex;
+  align-items: flex-start;
+  margin-top: auto;
+}
+
+.logo {
+  height: 1.2cm;
+  width: auto;
+  max-width: 100%;
+  margin-left: 10px; /* Adjust the margin as needed */
+}
+
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 7px;
+}
+
+.transparent-container {
+  background-color: rgba(0, 0, 0, 0); /* Adjust the alpha (fourth value) for transparency */
+  height: 560px; /* Set the desired height */
+  padding: 20px; /* Add padding as needed */
+  border-radius: 10px; /* Add border-radius for rounded corners */
+}
+
+
+
+    /* Include Styles2.css styles here */
+    .modal {
+      /* ... (copy the contents) ... */
+    }
+
+    /* ... (copy any additional styles from Styles2.css) ... */
+    .top-left-tile {
+      position: absolute;
+      top: 3cm; /* Adjust this value based on your requirement */
+      left: 20px; /* Adjust this value based on your requirement */
+      z-index: 2; /* Ensure the tile is above other elements */
+      display: flex; /* Use flexbox for layout */
+      align-items: top; /* Align items vertically in the center */
+    }
+
+    .top-left-tile img {
+      width: 225px;
+      height: 330px;
+      border-radius: 5px; /* Add border-radius or any other styles as needed */
+      margin-right: 10px; /* Add some space between the image and text */
+    }
+
+    .top-left-tile .tile-info {
+      color: #fff;
+    }
+
+    .top-left-tile .tile-title {
+      font-weight: bold;
+      font-size: 40px;
+      text-decoration: underline;
+      text-decoration-color: #ff0000; /* Red underline color */
+    }
+.play-button,
+.watchlist-button {
+  display: inline-block; /* Adjusted to inline-block for stacking */
+  margin-right: 15px; /* Add margin between buttons */
+  margin-bottom: 10px; /* Add margin below buttons */
+  position: relative;
+  background-color: #ff0000; /* Red background color */
+  color: #fff;
+  border-radius: 20px; /* Adjust border-radius for rounded edges */
+  padding: 8px 15px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border 0.2s ease-in-out; /* Add smooth transition */
+  margin-top: 20px;
+}
+
+.play-button:hover,
+.watchlist-button:hover {
+  background-color: #000; /* Change background color on hover */
+  color: #ff0000; /* Change text color on hover */
+  border: 2px solid #ff0000; /* Add red border on hover */
+}
+
+.play-icon,
+.watchlist-icon {
+  font-size: 16px; /* Adjust the size of the play and watchlist icons */
+  margin-right: 5px; /* Add spacing between icon and text */
+}
+
+.detail-heading {
+  color: #fff; /* Red text color */
+  border-bottom: 2px solid #ff0000; /* Red underline */
+  padding-bottom: 5px; /* Add padding below the heading */
+  margin-bottom: 10px; /* Add margin below the heading */
+}
+
+.synopsis {
+  font-size: 16px; /* Adjust font size as needed */
+  line-height: 1.3; /* Adjust line height as needed */
+}
+
+.container-wrapper {
+  margin-top: 20px; /* Adjust the margin-top based on your design */
+}
+
+.translucent-container {
+  width: 1090.84px; /* Adjusted width to leave 2px from both left and right */
+  height: flex; /* Set the desired height for the container */
+  position: absolute;
+  top: 630px; /* Adjusted top position to start below the image tile */
+  left: 2px; /* Adjusted left position to leave 2px */
+  background-color: rgba(0, 0, 0, 0.8); /* Adjusted background color with opacity */
+  margin: 0px; /* Added margin for spacing */
+  border-radius: 10px; /* Added border-radius for rounded corners */
+  padding: 20px; /* Added padding for content spacing */
+  overflow: hidden;
+}
+
+.season-button {
+  position: relative;
+  background-color: #ff0000; /* Red background color */
+  color: #fff;
+  border-radius: 10px; /* Adjust border-radius for rounded edges */
+  padding: 16px 30px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Add smooth transition */
+  margin-top: 20px; /* Add margin from the top title */
+  margin-right: 10px; /* Add some space between the buttons */
+}
+
+.season-button:hover {
+  border-radius: 10px;
+  background-color: #000; /* Change background color on hover */
+  color: #fff; /* Change text color on hover */
+  border-color: red; /* Add a red border on hover */
+}
+
+
+.season-title {
+  font-size: 20px; /* Adjust font size as needed */
+}
+.season-button.clicked {
+  background-color: #000; /* Change background color for clicked button */
+  color: #fff; /* Change text color for clicked button */
+}
+.detail-heading {
+  color: #ff0000; /* Red text color */
+  border-bottom: 2px solid #ff0000; /* Red underline */
+  padding-bottom: 5px; /* Add padding below the heading */
+  margin-bottom: 10px; /* Add margin below the heading */
+}
+
+/* Original styling for linear view */
+.file-box {
+  border: 1px solid #000;
+  padding: 10px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease; /* Add a smooth transition effect */
+}
+
+.file-box:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2); /* Transparent black shade for even boxes */
+}
+
+.file-box:nth-child(odd) {
+  background-color: rgba(128, 128, 128, 0.1); /* Transparent gray shade for odd boxes */
+}
+
+.file-box:hover {
+  transform: scale(1.05); /* Make the box slightly bigger on hover */
+  border-color: red; /* Add a red border on hover */
+}
+
+/* Additional styling for grid view */
+#fileListContainer.grid-view {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* Adjust the number of columns based on your preference */
+  gap: 10px; /* Adjust the gap between grid items */
+}
+
+.file-box.grid {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 2px solid #000;
+  transition: all 0.3s ease;
+  height: 50px; /* Adjust the height of each grid item */
+}
+
+.file-box.grid:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.file-box.grid:nth-child(odd) {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.file-box.grid:hover {
+  transform: scale(1.05);
+  border-color: red;
+}
+
+.file-box.grid p {
+  margin: 0;
+  text-align: center; /* Center the text within each grid item */
+  font-size: 14px; /* Adjust the font size as needed */
+}
+.play-icon {
+  margin-right: 5px; /* Adjust margin as needed */
+}
+/* WebKit-based browsers (Chrome, Safari) */
+body::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #ff0000; /* Set the color of the thumb */
+  border-radius: 4px; /* Add border-radius for rounded corners */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #2b2b2b; /* Set the color of the track */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #ff3333; /* Change color on hover */
+}
+/* Add styles for anime-info-container class */
+/* Add styles for anime-info-container class */
+.anime-info-container {
+  position: absolute;
+  top: 450px; /* Adjust the distance from the bottom as needed */
+  left: 20px;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px; /* Add padding as needed */
+  gap: 20px;
+  height: 30px; /* Set the height to 30px */
+  width: 206px; /* Set the width to 100px */
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.7); /* Translucent black background */
+}
+
+/* Style for Type box */
+.type-box {
+  background-color: red;
+  font-weight: bold; /* Bold text */
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* Style for Total Episodes box */
+.total-episodes-box {
+  background-color: yellow;
+  font-weight: bold; /* Bold text */
+  color: black;
+  padding: 5px;
+  border-radius: 5px;
+}
+.green-box {
+  background-color: #00ff00; /* Green background color */
+  color: #000000; /* Black text color */
+  font-weight: bold; /* Bold text */
+  padding: 4.5px; /* Add padding as needed */
+  border-radius: 5px; /* Add border radius for rounded corners */
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="menu-icon" onclick="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </div>
+
+    <h1 class="title">
+      <!-- Display the title image -->
+      <img class="logo" src="instant/ANIFLIX.png" alt="ANIFLIX Logo">
+    <div class="search-icon">
+    <a href="search.html" class="search-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </a>
+    </div>
+  </div>
+
+  <div class="profile-icon" onclick="toggleProfileInfo()">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="7" r="4" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""></circle>
+  <path d="M4 21V17C4 15.8954 4.89543 15 6 15H18C19.1046 15 20 15.8954 20 17V21" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""></path>
+</svg>
+  </div>
+</header>
+
+
+<div class="transparent-container">
+  <div class="top-left-tile">
+    <!-- Your tile content goes here -->
+    <img src="${tileImage}" alt="${folderName} Tile">
+    <div class="tile-info">
+      <!-- Add styles to the title of the tile -->
+      <div class="tile-title">${folderName}</div>
+      <div id="playButton" class="play-button" onclick="playVideo()">
+        <span class="play-icon">&#9654;</span> <!-- Play icon -->
+        Play
+      </div>
+
+      <!-- Add "Add to Watchlist" button -->
+      <div class="watchlist-button" onclick="addToWatchlist()">
+        <span class="watchlist-icon">&#9734;</span> <!-- Star icon for watchlist -->
+        Add to Watchlist <!-- Text inside the button -->
+      </div>
+
+      <!-- Detail heading with red underline -->
+      <h2 class="detail-heading">Detail</h2>
+
+      <!-- Placeholder for synopsis -->
+      <div class="synopsis">
+        <!-- Your synopsis goes here -->
+        <!-- You can update this section based on your content -->
+        Kaaaa Meeeee Haaaaaa Meeee Haaaaaaaaaaaaaaaaaa!!!!!!!!!
+      </div>
+    </div>
+  </div>
+</div>
+
+  <main>
+    <!-- Your existing content, such as image tile, buttons, and synopsis -->
+    <div class="container-wrapper">
+      <div class="translucent-container">
+        <!-- Seasons Title -->
+        <h2 class="detail-heading" id="seasonTitle">Seasons</h2>
+
+        <!-- Season 1 Button -->
+        <button class="season-button" onclick="handleSeason1()">SEASON 1</button>
+
+        <!-- Season 2 Button -->
+        <button class="season-button" onclick="handleSeason2()">SEASON 2</button>
+
+        <!-- Add margin to create space between buttons and Episode title -->
+        <div style="margin-top: 20px;"></div>
+
+        <!-- Episode Title -->
+        <h2 class="detail-heading" id="episodeTitle">Episodes</h2>
+
+        <div id="fileListContainer" style="height: auto;"></div>
+      </div>
+    </div>
+  </main>
+<script>
+function handleSeason1() {
+  // Add your logic or navigation for Season 1 here
+  console.log('Season 1 button clicked');
+}
+
+// Function to handle click on Season 2 button
+function handleSeason2() {
+  // Add your logic or navigation for Season 2 here
+  console.log('Season 2 button clicked');
+}
+
+// Declare selectedFiles and folderId in the global scope
+let selectedFiles = [];
+let folderId;
+let files = [];
+
+// Function to fetch and display file list
+async function fetchAndDisplayFileList(folderName) {
+  try {
+    const apiKey = '42605q5ytvlhmu9eris67';
+    const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.status === 200) {
+      const files = data.result.files;
+
+      const fileListContainer = document.getElementById('fileListContainer');
+      fileListContainer.innerHTML = ''; // Clear the container before adding new content
+
+      if (Array.isArray(files) && files.length > 0) {
+        // Display files in a grid if there are more than 30 episodes, else display in a linear view
+        if (files.length > 30) {
+          displayFilesInGrid(files, fileListContainer);
+        } else {
+          displayFilesInLinearView(files, fileListContainer);
+        }
+      } else {
+        fileListContainer.innerHTML = '<p>No episodes found for this anime.</p>';
+      }
+
+      // Filter files based on the provided folderId
+      selectedFiles = files.filter(file => file.folder_id === folderId);
+
+      console.log('Selected Files:', selectedFiles);
+    } else {
+      console.error('FileMoon API Error:', data.msg);
+      const fileListContainer = document.getElementById('fileListContainer');
+      fileListContainer.innerHTML = '<p>API Error</p>';
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    const fileListContainer = document.getElementById('fileListContainer');
+    fileListContainer.innerHTML = '<p>Unexpected Error</p>';
+  }
+}
+
+// Function to display files in a grid
+function displayFilesInGrid(files, container) {
+  container.classList.add('grid-view'); // Add a class for grid view
+
+  // Sort files in ascending order by name
+  files.sort((a, b) => a.title.localeCompare(b.title));
+
+  files.forEach(file => {
+    const fileBox = document.createElement('div');
+    fileBox.classList.add('file-box', 'grid');
+
+    const playIcon = document.createElement('span');
+    const fileTitle = document.createElement('p');
+    fileTitle.textContent = `▶ ${file.title}`;
+
+    fileBox.appendChild(playIcon);
+    fileBox.appendChild(fileTitle);
+
+    container.appendChild(fileBox);
+
+    fileBox.addEventListener('click', () => redirectToVideoPlayer(file));
+  });
+}
+
+// Function to display files in a linear view
+function displayFilesInLinearView(files, container) {
+  container.classList.remove('grid-view'); // Remove the grid class if it exists
+
+  // Sort files in ascending order by name
+  files.sort((a, b) => a.title.localeCompare(b.title));
+
+  files.forEach(file => {
+    const fileBox = document.createElement('div');
+    fileBox.classList.add('file-box');
+
+    const playIcon = document.createElement('span');
+    const fileTitle = document.createElement('p');
+    fileTitle.textContent = `▶ ${file.title}`;
+
+    fileBox.appendChild(playIcon);
+    fileBox.appendChild(fileTitle);
+
+    container.appendChild(fileBox);
+
+    fileBox.addEventListener('click', () => redirectToVideoPlayer(file));
+  });
+}
+
+function redirectToVideoPlayer(file) {
+  // Replace 'YOUR_CUSTOM_PLAYER_URL' with the actual URL of your custom video player HTML file
+  const customPlayerUrl = './video_player.html';
+
+  const videoUrl = `https://filemoon.in/d/${file.file_code}/${encodeURIComponent(file.title)}`;
+
+  // Construct the embed code template
+  const embedCodeTemplate = `<iframe src="${videoUrl.replace('/d/', '/e/')}" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="1050" height="490" allowfullscreen></iframe>`;
+
+  // Add folderId to the URL parameters
+  const urlWithParams = `${customPlayerUrl}?embedCode=${encodeURIComponent(embedCodeTemplate)}&title=${encodeURIComponent(file.title)}&folderId=${folderId}`;
+
+  // Open your custom video player URL with the embed code, title, and folderId as parameters
+  window.open(urlWithParams, '_blank');
+}
+
+// Function to fetch MAL data for the provided anime title
+async function fetchMALData(animeTitle) {
+  const malApiUrl = `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(animeTitle)}&limit=1`;
+
+  try {
+    const response = await fetch(malApiUrl);
+    const data = await response.json();
+
+    if (data.data && data.data.length > 0) {
+      const animeData = data.data[0];
+      const malSynopsis = animeData.synopsis || 'No synopsis available.';
+      const malType = animeData.type || 'Not specified';
+      const malTotalEpisodes = animeData.episodes || 'Not specified';
+      const malScore = animeData.score || 'Not specified';
+
+      // Display the fetched data in the synopsis section
+      const synopsisContainer = document.querySelector('.synopsis');
+      synopsisContainer.innerHTML = `<b>Synopsis:</b> ${malSynopsis}`;
+
+      // Create and append elements for Type, Total Episodes, and Score with styles
+      const animeInfoContainer = document.createElement('div');
+      animeInfoContainer.classList.add('anime-info-container'); // Add a class for styling
+
+      // Type box
+      const typeBox = document.createElement('div');
+      typeBox.classList.add('type-box', 'anime-info');
+      typeBox.innerHTML = `${malType}`;
+      animeInfoContainer.appendChild(typeBox);
+
+// Total Episodes box
+const totalEpisodesBox = document.createElement('div');
+totalEpisodesBox.classList.add('total-episodes-box', 'anime-info');
+totalEpisodesBox.innerHTML = `<b></b> EP ${malTotalEpisodes}`;
+animeInfoContainer.appendChild(totalEpisodesBox);
+
+
+// Score box
+const scoreBox = document.createElement('div');
+scoreBox.classList.add('green-box', 'anime-info');
+scoreBox.innerHTML = `<b>&#9733;</b> ${malScore}`;
+animeInfoContainer.appendChild(scoreBox);
+
+      // Append the animeInfoContainer directly after the top-left-tile
+      const topLeftTile = document.querySelector('.top-left-tile');
+      topLeftTile.parentNode.insertBefore(animeInfoContainer, topLeftTile.nextSibling);
+
+    } else {
+      const synopsisContainer = document.querySelector('.synopsis');
+      synopsisContainer.innerHTML = 'No data available.';
+    }
+  } catch (error) {
+    console.error('Error fetching MAL data:', error);
+    const synopsisContainer = document.querySelector('.synopsis');
+    synopsisContainer.innerHTML = 'Error fetching MAL data.';
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  folderId = urlParams.get('folderId');
+  const folderName = decodeURIComponent(urlParams.get('folderName'));
+  const tileImage = decodeURIComponent(urlParams.get('tileImage'));
+
+  console.log('Folder ID (before API call):', folderId);
+
+  // Fetch and display MAL data using the folderName as the anime title
+  await fetchMALData(folderName);
+
+  // Display folder name and title image
+  document.querySelector('.tile-title').textContent = folderName;
+  document.querySelector('.top-left-tile img').src = tileImage;
+
+  await fetchAndDisplayFileList(folderName);
+
+  // Log the URL from which data is fetched
+  const apiKey = '42605q5ytvlhmu9eris67';
+    const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}`;
+    console.log('API URL:', apiUrl);
+  });
+
+  function playVideo() {
+    // Get the first file from the file list container
+    const firstFileBox = document.querySelector('.file-box');
+
+    // Check if a file is available
+    if (firstFileBox) {
+      // Extract file information from the data attributes or other appropriate source
+      const file = {
+        title: firstFileBox.querySelector('p').textContent,
+        fileCode: firstFileBox.dataset.fileCode, // Adjust this based on your data structure
+        // Add other necessary properties
+      };
+
+      console.log('Scrolling to file:', file.title); // Log the file information for debugging
+
+      // Scroll to the file container
+      firstFileBox.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest', // or 'center' or 'end'
+        offsetTop: -50, // Adjust the offset value as needed (negative value moves it up)
+      });
+    } else {
+      console.error('No file available to scroll to');
+    }
+  }
+</script>
+  <footer>
+    <!-- Your footer content... -->
+  </footer>
+
+</body>
+
+</html>

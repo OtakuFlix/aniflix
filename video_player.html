@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jagannath Anime Video Player</title>
+    <link rel="icon" type="image/x-icon" href="instant/A.ico">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #2b2b2b; /* Slightly darker gray background */
+    }
+
+    header {
+      background-color: #282c34; /* Dark blue header */
+      color: #ff0000; /* Red color */
+      padding: 0.5em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 1.5cm; /* Adjusted header height */
+    }
+
+    .title-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .menu-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000; /* Red color for the menu icon */
+      margin-right: 1em; /* Adjust the margin as needed */
+    }
+
+    .title {
+      font-size: 1.45em; /* Adjusted font size */
+      font-weight: bold;
+      margin: 0; /* Remove default margin */
+      flex: 1; /* Allow title to take remaining space */
+      display: flex; /* Add display flex */
+      align-items: center; /* Vertically center align items */
+    }
+
+    .title img {
+      height: 1.3cm; /* Adjusted height to 1.3cm */
+      margin-right: 10px; /* Adjusted margin */
+    }
+
+    .ribbon-link {
+      color: #ff0000; /* Red color for the ribbon link */
+      text-decoration: none; /* Remove underline */
+      margin-right: 10px; /* Adjust margin as needed */
+    }
+
+    .ribbon-link:hover {
+      text-decoration: underline; /* Underline on hover */
+    }
+
+    .search-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000; /* Red color for the magnifier icon */
+    }
+
+    .video-container {
+      position: relative;
+      width: 1110.84px; /* Adjusted width to leave 1cm space on both sides */
+      max-width: 200%; /* Enlarged to fit the screen */
+      margin: 0 auto;
+      background-color: #2b2b2b; /* Slightly darker gray background */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.5), 0 0 80px rgba(255, 255, 255, 0.5); /* Ambient light from 0.75cm depth */
+      padding: 20px;
+      box-sizing: border-box;
+      margin-top: 10mm; /* 10mm space above the video container */
+      margin-bottom: 10mm; /* 10mm space below the video container */
+      border-radius: 10px; /* Rounded corners */
+      overflow: hidden; /* Hide overflowing content for rounded corners */
+    }
+
+    iframe {
+      width: 100%;
+      height: calc(100vh - 20mm); /* Adjusted to fill the screen */
+      border: none;
+      border-radius: 10px; /* Rounded corners */
+      overflow: hidden; /* Hide scrollbar when content is not overflowing */
+    }
+
+    .anime-title {
+      color: #ff0000; /* Red color for the anime title */
+      margin-top: 20px;
+      text-align: left; /* Left align the text */
+    }
+
+/* WebKit-based browsers (Chrome, Safari) */
+body::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #ff0000; /* Set the color of the thumb */
+  border-radius: 4px; /* Add border-radius for rounded corners */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #2b2b2b; /* Set the color of the track */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #ff3333; /* Change color on hover */
+}
+.buffering-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1110px; /* Set the desired width */
+  height: 520px; /* Set the desired height */
+  object-fit: cover;
+  z-index: 1; /* Display buffering video above other content */
+}
+
+
+    #videoIframe {
+      display: none;
+    }
+.container-wrapper {
+  margin-top: 20px; /* Adjust the margin-top based on your design */
+}
+
+.translucent-container {
+  width: 1030.84px; /* Adjusted width to leave 2px from both left and right */
+  height: 1400px; /* Set the desired height for the container */
+  position: absolute;
+  top: 400px; /* Adjusted top position to start below the image tile */
+  left: 2px; /* Adjusted left position to leave 2px */
+  background-color: rgba(0, 0, 0, 0.8); /* Adjusted background color with opacity */
+  margin: px 0; /* Added margin for spacing */
+  border-radius: 10px; /* Added border-radius for rounded corners */
+  padding: 20px; /* Added padding for content spacing */
+  overflow: hidden;
+}
+
+.season-button {
+  position: relative;
+  background-color: #ff0000; /* Red background color */
+  color: #fff;
+  border-radius: 10px; /* Adjust border-radius for rounded edges */
+  padding: 16px 30px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Add smooth transition */
+  margin-top: 20px; /* Add margin from the top title */
+  margin-right: 10px; /* Add some space between the buttons */
+}
+
+.season-button:hover {
+  border-radius: 10px;
+  background-color: #000; /* Change background color on hover */
+  color: #fff; /* Change text color on hover */
+  border-color: red; /* Add a red border on hover */
+}
+
+
+.season-title {
+  font-size: 20px; /* Adjust font size as needed */
+}
+.season-button.clicked {
+  background-color: #000; /* Change background color for clicked button */
+  color: #fff; /* Change text color for clicked button */
+}
+.detail-heading {
+  color: #ff0000; /* Red text color */
+  border-bottom: 2px solid #ff0000; /* Red underline */
+  padding-bottom: 5px; /* Add padding below the heading */
+  margin-bottom: 10px; /* Add margin below the heading */
+}
+
+/* Styles for the linear view */
+.file-box {
+  color: white;
+  border: 2px solid #000;
+  padding: 2px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  height: 50px;
+}
+
+.file-box:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.file-box:nth-child(odd) {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.file-box:hover {
+  transform: scale(1.05);
+  border-color: red;
+}
+
+/* Styles for the grid view */
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 10 boxes in horizontal */
+  gap: 10px; /* Adjust as needed */
+  font-size: 18px;
+  justify-content: center;
+}
+
+.file-box.grid {
+  width: 100%;
+  height: calc(20% - 10px); /* 5 boxes in vertical, subtracting margin */
+  margin: 5px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 2px solid #000;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px; /* Adjust as needed */
+}
+
+.file-box.grid:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.file-box.grid:nth-child(odd) {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.file-box.grid:hover {
+  transform: scale(1.05);
+  border-color: red;
+}
+
+
+
+.file-title {
+  color: white; /* Set the text color to white */
+  margin: 0; /* Remove default margin */
+}
+.play-icon {
+  margin-right: 5px; /* Adjust margin as needed */
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title-container">
+      <div class="menu-icon" onclick="toggleMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </div>
+      <h1 class="title">
+        <img src="instant/ANIFLIX.png" alt="Your Anime Logo">
+      </h1>
+<!-- Add this block in your existing ribbon bar -->
+<div class="ribbon-link" style="text-align: center; padding: 10px; background-color: #282c34; color: #ff0000; line-height: 0.5;">
+  <p><strong>For the best experience, we recommend using an ad blocker.</strong></p>
+  <p>Ads can sometimes interfere with your viewing experience. Install an ad blocker to enjoy uninterrupted content.</p>
+  <a href="https://adguard.com/en/welcome.html" target="_blank" style="text-decoration: none; color: #ff0000;"><strong>Install AdGuard</strong></a>
+</div>
+
+    </div>
+    <div class="search-icon" onclick="openSearch()">
+      <!-- Magnifier icon for search -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </div>
+  </header>
+
+<div class="video-container">
+  <!-- Buffering Video -->
+  <video class="buffering-video" autoplay loop muted playsinline>
+    <source src="instant/Buffering.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <!-- The iframe will be dynamically generated using JavaScript -->
+  <iframe id="videoIframe" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="100%" height="100%" allowfullscreen></iframe>
+  <h2 class="anime-title">Goku</h2>
+      <!-- Season 1 Button -->
+      <button class="season-button" onclick="handleSeason1()">SEASON 1</button>
+
+      <!-- Season 2 Button -->
+      <button class="season-button" onclick="handleSeason2()">SEASON 2</button>
+
+      <!-- Add margin to create space between buttons and Episode title -->
+      <div style="margin-top: 20px;"></div>
+
+      <!-- Episode Title -->
+      <h2 class="detail-heading" id="episodeTitle">Episode</h2>
+
+      <!-- Placeholder for episode container -->
+      <div id="episodeContainer"></div>
+
+    <!-- File List Container -->
+    <h2 class="detail-heading"></h2>
+    <div id="fileListContainer"></div>
+</div>
+
+<script>
+function setVideoIframe() {
+  var embedCode = getParameterByName('embedCode');
+  var title = getParameterByName('title');
+  var folderId = getParameterByName('folderId'); // Added line to get folderId
+  console.log('Embed Code:', embedCode); // Log the embed code
+  console.log('Title:', title); // Log the title
+  console.log('Folder ID (from redirected page):', folderId); // Log the folderId
+
+  var videoContainer = document.querySelector('.video-container');
+  var videoIframe = document.getElementById('videoIframe');
+  var animeTitleElement = document.querySelector('.anime-title');
+  var bufferingVideo = document.querySelector('.buffering-video');
+
+  if (embedCode) {
+    // Decode the URL-encoded embed code
+    var decodedEmbedCode = decodeURIComponent(embedCode);
+
+    // Set the iframe src with the decoded embed code
+    videoIframe.srcdoc = decodedEmbedCode;
+
+    // Set the anime title
+    animeTitleElement.textContent = title || 'Default Title';
+
+    // Hide buffering video and show the iframe when content is loaded
+    videoContainer.style.background = 'none';
+    videoIframe.style.display = 'block';
+
+    // Add event listener to remove buffering video element after FileMoon player is loaded
+    videoIframe.addEventListener('load', function () {
+      bufferingVideo.pause();
+      bufferingVideo.currentTime = 0;
+      bufferingVideo.remove();
+    });
+  } else {
+    // Display buffering video and hide the iframe when no embed code is provided
+    videoContainer.style.background = 'url("instant/Buffering.mp4") center/cover no-repeat';
+    videoIframe.style.display = 'none';
+
+    alert('Embed code not provided.');
+  }
+
+
+    // Call the function to fetch and display file list using folderId
+    fetchAndDisplayFileList(folderId);
+  }
+
+  // Function to get URL parameters by name
+  function getParameterByName(name) {
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(window.location.href);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+  // Call the setVideoIframe function when the page loads
+  window.onload = setVideoIframe;
+
+// Function to fetch and display file list
+async function fetchAndDisplayFileList(folderId) {
+  try {
+    const apiKey = '42605q5ytvlhmu9eris67';
+    const apiUrl = `https://filemoonapi.com/api/file/list?key=${apiKey}&fld_id=${folderId}&limit=1000`;
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.status === 200) {
+      let files = data.result.files;
+
+      const fileListContainer = document.getElementById('fileListContainer');
+      fileListContainer.innerHTML = '<h2></h2>';
+
+      if (Array.isArray(files) && files.length > 0) {
+        // Custom sort function for alphanumeric strings
+        const customSort = (a, b) => {
+          const regex = /\d+/;
+          const aNum = parseInt(a.title.match(regex)[0]) || 0;
+          const bNum = parseInt(b.title.match(regex)[0]) || 0;
+
+          if (aNum === bNum) {
+            return a.title.localeCompare(b.title);
+          }
+          return aNum - bNum;
+        };
+
+        // Sort files using custom sort function
+        files.sort(customSort);
+
+        // Log the sorted file names
+        const sortedFileNames = files.map(file => file.title);
+        console.log('Sorted File Names:', sortedFileNames);
+
+        // Remove 'E' from titles with less than 5 characters
+        files = files.map(file => ({
+          ...file,
+          title: file.title.length < 5 ? file.title.replace(/E/g, '') : file.title
+        }));
+
+        // Display files
+        if (files.length <= 30) {
+          // Display in linear format
+          displayFilesLinear(files, folderId);
+        } else {
+          // Display in grid format with pagination
+          displayFilesGrid(files, folderId);
+        }
+      } else {
+        fileListContainer.innerHTML += '<p>No episodes found for this anime.</p>';
+      }
+    } else {
+      console.error('FileMoon API Error:', data.msg);
+      fileListContainer.innerHTML += '<p>API Error</p>';
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    const fileListContainer = document.getElementById('fileListContainer');
+    fileListContainer.innerHTML += '<p>Unexpected Error</p>';
+  }
+}
+
+// Function to display files in linear format
+function displayFilesLinear(files, folderId) {
+  const fileListContainer = document.getElementById('fileListContainer');
+
+  files.forEach(file => {
+    const fileBox = document.createElement('div');
+    fileBox.classList.add('file-box');
+
+    const playIcon = document.createElement('span');
+    const fileTitle = document.createElement('p');
+    fileTitle.textContent = `${file.title}`;
+
+    fileBox.appendChild(playIcon);
+    fileBox.appendChild(fileTitle);
+
+    fileListContainer.appendChild(fileBox);
+
+    fileBox.addEventListener('click', () => redirectToVideoPlayer(file, folderId));
+  });
+}
+
+// Function to display files in grid format with pagination
+function displayFilesGrid(files, folderId) {
+  const fileListContainer = document.getElementById('fileListContainer');
+
+  const pageSize = 50;
+  const pageCount = Math.ceil(files.length / pageSize);
+
+  for (let page = 0; page < pageCount; page++) {
+    const gridContainer = document.createElement('div');
+    gridContainer.classList.add('file-grid');
+
+    const start = page * pageSize;
+    const end = start + pageSize;
+    const pageFiles = files.slice(start, end);
+
+    pageFiles.forEach(file => {
+      const fileBox = document.createElement('div');
+      fileBox.classList.add('file-box');
+
+      const playIcon = document.createElement('span');
+      const fileTitle = document.createElement('p');
+      fileTitle.textContent = `${file.title}`;
+
+      fileBox.appendChild(playIcon);
+      fileBox.appendChild(fileTitle);
+
+      gridContainer.appendChild(fileBox);
+
+      fileBox.addEventListener('click', () => redirectToVideoPlayer(file, folderId));
+    });
+
+    fileListContainer.appendChild(gridContainer);
+  }
+}
+
+
+  function redirectToVideoPlayer(file, folderId) {
+    // Replace 'YOUR_CUSTOM_PLAYER_URL' with the actual URL of your custom video player HTML file
+    const customPlayerUrl = './video_player.html';
+
+    const videoUrl = `https://filemoon.in/d/${file.file_code}/${encodeURIComponent(file.title)}`;
+
+    // Construct the embed code template
+    const embedCodeTemplate = `<iframe src="${videoUrl.replace('/d/', '/e/')}" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="1050" height="490" allowfullscreen></iframe>`;
+
+    // Open your custom video player URL with the embed code, title, and folderId as parameters
+    window.open(`${customPlayerUrl}?embedCode=${encodeURIComponent(embedCodeTemplate)}&title=${encodeURIComponent(file.title)}&folderId=${folderId}`, '_blank');
+  }
+
+  document.addEventListener("DOMContentLoaded", setVideoIframe);
+    document.addEventListener('DOMContentLoaded', function () {
+      // Replace 'filemoonplayer' with the actual ID or class of your player element
+      var player = document.getElementById('filemoonplayer');
+
+      if (player) {
+        // Add click event listener to prevent redirects
+        player.addEventListener('click', function (event) {
+          event.preventDefault();
+          // Add any additional logic you need for playing the video
+          playVideo(); // Call your playVideo function
+        });
+      }
+    });
+</script>
+<footer>
+  <!-- Your footer content... -->
+</footer>
+</body>
+</html>

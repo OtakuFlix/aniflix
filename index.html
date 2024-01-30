@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Anime Website</title>
+  <script src="java.js"></script>
+  <link rel="stylesheet" href="Styles2.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?
+    <link rel="icon" type="image/x-icon" href="instant/A.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="instant/A.ico">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #2b2b2b;
+      color: #fff;
+    }
+
+    header {
+      background-color: #282c34;
+      padding: 0.5em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 1.5cm;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .menu-icon,
+    .search-icon,
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      fill: #ff0000;
+      margin: 0 1em;
+    }
+
+    .title {
+      display: flex;
+      align-items: flex-start;
+      margin-right: auto;
+    }
+
+    .logo {
+      height: 1.2cm;
+      width: auto;
+      max-width: 100%;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 7px;
+    }
+
+.trending-container {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+}
+
+.trending-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0.5, 0, 0); /* Adjust the transparency here */
+    pointer-events: none; /* Allow click-through to the underlying elements */
+    z-index: 1;
+}
+
+.trending-section {
+  position: relative;
+  padding: 20px;
+}
+
+.trending-section h2 {
+  color: #ff0000;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+        .trending-tiles {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+
+/* Add these styles for the Trending Tiles */
+.anime-container {
+  width: 150px;
+  height: 230px;
+  margin-right: 10px;
+  flex: 0 0 auto;
+}
+
+.anime-tile {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: #ff0000;
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.anime-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anime-tile:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 0, 0, 0.7);
+      color: white;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .anime-container:hover .overlay {
+      visibility: visible;
+      opacity: 1;
+    }
+
+.anime-info,
+.anime-title {
+  text-align: center;
+}
+
+.anime-title {
+  color: #ffffff;
+  background-color: #ff0000;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px;
+  margin-top: -5px;
+  box-sizing: border-box;
+}
+/* Add styles for the navigation buttons */
+.spotlight-navigation {
+  position: absolute;
+  gap: 10px;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2;
+  display: flex; /* Use flexbox to center items */
+}
+
+.prev-button,
+.next-button {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%; /* Make the buttons round */
+  width: 30px; /* Set the width */
+  height: 30px; /* Set the height */
+  display: flex; /* Use flexbox to center items */
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.next-button:hover {
+  background-color: #990000;
+  color: #fff;
+}
+
+/* Add styles for the dots container */
+.dots-container {
+  display: flex;
+  gap: 10px; /* Adjust the gap between dots */
+  align-items: center; /* Center dots vertically */
+  justify-content: center; /* Center dots horizontally */
+}
+
+/* Add styles for the dots */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #fff;
+  opacity: 0.5; /* Adjust the opacity of inactive dots */
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* Add styles for the active dot */
+.active-dot {
+  background-color: #ff0000; /* Red color for active dot */
+  opacity: 1;
+}
+
+.spotlight {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  scroll-behavior: smooth;
+  aspect-ratio: 2.35 / 1;
+  margin: 0; /* Add this line to remove margin */
+}
+
+.spotlight-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.spotlight img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+
+/* Update the existing styles and add the following */
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+
+.spotlight-content {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.spotlight-title {
+  margin-bottom: 100px;
+  font-size: 24px; /* Adjust the font size as needed */
+  border-bottom: 2px solid #ff0000; /* Add red underline */
+  display: inline-block; /* Ensure the border only spans the width of the text */
+}
+
+.spotlight-synopsis {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Ensure the text doesn't exceed the container width */
+  word-wrap: break-word;
+  line-height: 1.2em; /* Adjust line height as needed */
+}
+
+.spotlight-buttons {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 4px; /* Add padding for spacing */
+}
+
+.spotlight-synopsis {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 60px;
+  line-height: 1.2em; /* Adjust line height as needed */
+  overflow: hidden;
+  text-align: left; /* Set text alignment to left */
+}
+
+
+/* Adjusted styles for the play and details buttons */
+.play-button,
+.details-button {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  position: relative;
+  background-color: #ff0000;
+  color: #fff;
+  border-radius: 20px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border 0.2s ease-in-out;
+  margin-top: 20px;
+}
+
+/* Adjusted hover styles for the play and details buttons */
+.play-button:hover,
+.details-button:hover {
+  background-color: #000;
+  color: #ff0000;
+  border: 2px solid #ff0000;
+}
+
+/* Added styles for the play icon and details icon */
+.play-button::before {
+  content: "\25B6\00a0"; /* Unicode for right-pointing triangle */
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+.details-button::before {
+  content: "\2261\00a0"; /* Unicode for three horizontal lines */
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+
+.spotlight-container:hover .spotlight-content,
+.spotlight-container.active .spotlight-content {
+  opacity: 1;
+}
+
+.spotlight-container.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Animation for spotlights */
+.active {
+  animation: showSpotlights infinite;
+}
+
+@keyframes showSpotlights {
+  0%, 5% {
+    opacity: 0;
+  }
+  5%, 95% {
+    opacity: 1;
+  }
+  100%, 100% {
+    opacity: 0;
+  }
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Customize scrollbar */
+body {
+  margin-right: 0px; /* Reserve space for the scrollbar on the right */
+}
+
+/* Vertical Scrollbar */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #ff0000; /* Red color for the thumb */
+  border-radius: 6px;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #2b2b2b; /* Background color for the track */
+}
+
+/* Show scrollbar on hover */
+body:hover::-webkit-scrollbar-thumb {
+  opacity: 1; /* Visible on hover */
+}
+
+/* Add a hover effect to the scrollbar thumb */
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #cc0000; /* Lighter red on hover */
+}
+
+/* Horizontal Scrollbar */
+body::-webkit-scrollbar-horizontal {
+  height: 8px;
+}
+
+body::-webkit-scrollbar-thumb:horizontal {
+  background-color: #ff0000; /* Red color for the thumb */
+  border-radius: 6px;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s;
+}
+
+body::-webkit-scrollbar-track:horizontal {
+  background-color: #2b2b2b; /* Background color for the track */
+}
+
+/* Show horizontal scrollbar on hover */
+body:hover::-webkit-scrollbar-thumb:horizontal {
+  opacity: 1; /* Visible on hover */
+}
+
+/* Add a hover effect to the horizontal scrollbar thumb */
+body::-webkit-scrollbar-thumb:horizontal:hover {
+  background-color: #cc0000; /* Lighter red on hover */
+}
+
+#introVideoContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+#introVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Adjust the margin-bottom to create space for the scrollbar under the video container */
+body:not(.show-scrollbar) {
+  margin-bottom: 8px; /* Adjust the value based on your scrollbar width */
+}
+
+  </style>
+</head>
+
+<body>
+  <div id="introVideoContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 9999;">
+    <video id="introVideo" width="100%" height="100%" autoplay muted>
+      <source src="instant/INTRO5.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <header>
+    <div class="menu-icon" onclick="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </div>
+    <h1 class="title">
+      <img class="logo" src="instant/ANIFLIX.png" alt="ANIFLIX Logo">
+    </h1>
+
+    <!-- Inside the header section -->
+    <div class="language-buttons">
+      <button id="japButton" onclick="selectLanguage('jap')" data-full-name="Japanese">JAP</button>
+      <button id="hinButton" onclick="selectLanguage('hin')" data-full-name="Hindi">HIN</button>
+      <button id="engButton" onclick="selectLanguage('eng')" data-full-name="English">ENG</button>
+    </div>
+    <div class="search-icon">
+    <a href="search.html" class="search-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </a>
+    </div>
+    <div class="profile-icon" onclick="toggleProfileInfo()">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="7" r="4" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""></circle>
+  <path d="M4 21V17C4 15.8954 4.89543 15 6 15H18C19.1046 15 20 15.8954 20 17V21" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""></path>
+</svg>
+    </div>
+      </div>
+    </div>
+  </header>
+
+<main>
+  <div class="spotlight">
+    <div class="spotlight-inner">
+<!-- Spotlight Navigation Buttons -->
+<div class="spotlight-navigation">
+  <button class="prev-button" onclick="changeSpotlight(-1)">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
+  </button>
+        <div class="dots-container"></div>
+  <button class="next-button" onclick="changeSpotlight(1)">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
+  </button>
+</div>
+      <!-- Spotlight 1 -->
+      <div class="spotlight-container">
+        <img src="./instant/Spotlight.jpg" alt="The Legend Of Hanuman">
+          <div class="image-overlay"></div>
+        <div class="spotlight-content">
+          <h2 class="spotlight-title">THE LEGEND OF HANUMAN</h2>
+          <p class="spotlight-synopsis">The series follows when God Mahadev incarnates as Hanuman to serve God Rama and his transformation from a mighty warrior to a god and how Hanuman became the beacon of hope amidst the harrowing darkness.</p>
+          <div class="spotlight-buttons">
+            <button class="play-button" onclick="playAnime('https://aniflix-hindi.netlify.app/video_player.html?embedCode=%3Ciframe%20src%3D%22https%3A%2F%2Ffilemoon.in%2Fe%2Feeluk3izof45%2FThe%2520Legend%2520of%2520Hanuman%22%20frameborder%3D%220%22%20marginwidth%3D%220%22%20marginheight%3D%220%22%20scrolling%3D%22no%22%20width%3D%221050%22%20height%3D%22490%22%20allowfullscreen%3E%3C%2Fiframe%3E&title=The%20Legend%20of%20Hanuman&folderId=137699')">PLAY</button>
+            <button class="details-button" onclick="viewDetails('https://aniflix-hindi.netlify.app/detail.html?folderId=137699&folderName=The%20Legend%20Of%20Hanuman&tileImage=https%3A%2F%2Fres.cloudinary.com%2Fdadackhrl%2Fimage%2Fupload%2FThe_Legend_Of_Hanuman_137699_Tile.jpg')">VIEW DETAILS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight 2: JUJUTSU KAISEN -->
+      <div class="spotlight-container">
+        <img src="./instant/Spotlight1.jpg" alt="Spotlight 1">
+          <div class="image-overlay"></div>
+        <div class="spotlight-content">
+          <h2 class="spotlight-title">JUJUTSU KAISEN</h2>
+          <p class="spotlight-synopsis">The curses unite for the common goal of eradicating humans and creating a world of only cursed energy users, led by a dangerous, ancient cursed spirit. To dispose of their greatest obstacle—the strongest sorcerer, Gojou—they orchestrate an attack at Shibuya Station on Halloween.</p>
+          <div class="spotlight-buttons">
+            <button class="play-button" onclick="playAnime('https://aniflix-hindi.netlify.app/video_player.html?embedCode=%3Ciframe%20src%3D%22https%3A%2F%2Ffilemoon.in%2Fe%2F6we94144rvrt%2FEpisode%252001%2520%25E2%2580%2593%2520Ryomen%2520Sukuna%22%20frameborder%3D%220%22%20marginwidth%3D%220%22%20marginheight%3D%220%22%20scrolling%3D%22no%22%20width%3D%221050%22%20height%3D%22490%22%20allowfullscreen%3E%3C%2Fiframe%3E&title=Episode%2001%20%E2%80%93%20Ryomen%20Sukuna&folderId=134619')">PLAY</button>
+            <button class="details-button" onclick="viewDetails('https://aniflix-hindi.netlify.app/detail.html?folderId=134619&folderName=Jujutsu%20Kaisen&tileImage=https%3A%2F%2Fres.cloudinary.com%2Fdadackhrl%2Fimage%2Fupload%2FJujutsu_Kaisen_134619_Tile.jpg')">VIEW DETAILS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight 3: Dragon Ball Super -->
+      <div class="spotlight-container">
+        <img src="./instant/Spotlight4.jpg" alt="DBS">
+          <div class="image-overlay"></div>
+        <div class="spotlight-content">
+          <h2 class="spotlight-title">DRAGON BALL SUPER</h2>
+          <p class="spotlight-synopsis">Seven years after the defeat of Majin Buu, Earth is at peace, and its people live free from any dangers lurking in the universe. However, this peace is short-lived; a sleeping threat awakens in the dark reaches of the galaxy: Beerus, the ruthless God of Destruction.</p>
+          <div class="spotlight-buttons">
+            <button class="play-button" onclick="playAnime('https://aniflix-hindi.netlify.app/video_player.html?embedCode=%3Ciframe%20src%3D%22https%3A%2F%2Ffilemoon.in%2Fe%2Fg2jo8jb6u90m%2FE01%22%20frameborder%3D%220%22%20marginwidth%3D%220%22%20marginheight%3D%220%22%20scrolling%3D%22no%22%20width%3D%221050%22%20height%3D%22490%22%20allowfullscreen%3E%3C%2Fiframe%3E&title=E01&folderId=136379')">PLAY</button>
+            <button class="details-button" onclick="viewDetails('https://aniflix-hindi.netlify.app/detail.html?folderId=136379&folderName=Dragon%20Ball%20Super&tileImage=https%3A%2F%2Fres.cloudinary.com%2Fdadackhrl%2Fimage%2Fupload%2FDragon_Ball_Super_136379_Tile.jpg')">VIEW DETAILS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight 4: Naruto -->
+      <div class="spotlight-container">
+        <img src="./instant/Spotlight5.png" alt="NARUTO">
+          <div class="image-overlay"></div>
+        <div class="spotlight-content">
+          <h2 class="spotlight-title">NARUTO</h2>
+          <p class="spotlight-synopsis">Naruto Uzumaki is a twelve-year-old ninja living in the Hidden Leaf Village under harsh ridicule from the villagers, having defaced a monument dedicated to the four Hokage leaders out of a need for acknowledgment.</p>
+          <div class="spotlight-buttons">
+            <button class="play-button" onclick="playAnime('https://aniflix-hindi.netlify.app/video_player.html?embedCode=%3Ciframe%20src%3D%22https%3A%2F%2Ffilemoon.in%2Fe%2Fpb8c88yevw6t%2F001%22%20frameborder%3D%220%22%20marginwidth%3D%220%22%20marginheight%3D%220%22%20scrolling%3D%22no%22%20width%3D%221050%22%20height%3D%22490%22%20allowfullscreen%3E%3C%2Fiframe%3E&title=001&folderId=138590')">PLAY</button>
+            <button class="details-button" onclick="viewDetails('https://aniflix-hindi.netlify.app/detail.html?folderId=138590&folderName=Naruto&tileImage=https%3A%2F%2Fres.cloudinary.com%2Fdadackhrl%2Fimage%2Fupload%2FNaruto_138590_Tile.jpg')">VIEW DETAILS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight 5: Solo Leveling -->
+      <div class="spotlight-container">
+        <img src="./instant/Spotlight2.jpe" alt="Spotlight 2">
+          <div class="image-overlay"></div>
+        <div class="spotlight-content">
+          <h2 class="spotlight-title">SOLO LEVELING</h2>
+          <p class="spotlight-synopsis">In a world where hunters, humans who possess magical abilities, must battle deadly monsters to protect the human race from certain annihilation, a notoriously weak hunter named Sung Jinwoo finds himself in a seemingly endless struggle for survival.</p>
+          <div class="spotlight-buttons">
+            <button class="play-button" onclick="playAnime('https://aniflix-hindi.netlify.app/video_player.html?embedCode=%3Ciframe%20src%3D%22https%3A%2F%2Ffilemoon.in%2Fe%2F3l6bvw8qrrmo%2F01%2520I%2520Am%2520Used%2520To%2520It%2520%255BHin%255D%22%20frameborder%3D%220%22%20marginwidth%3D%220%22%20marginheight%3D%220%22%20scrolling%3D%22no%22%20width%3D%221050%22%20height%3D%22490%22%20allowfullscreen%3E%3C%2Fiframe%3E&title=01%20I%20Am%20Used%20To%20It%20%5BHin%5D&folderId=134625')">PLAY</button>
+            <button class="details-button" onclick="viewDetails('https://aniflix-hindi.netlify.app/detail.html?folderId=134625&folderName=Solo%20Leveling&tileImage=https%3A%2F%2Fres.cloudinary.com%2Fdadackhrl%2Fimage%2Fupload%2FSolo_Leveling_134625_Tile.jpg')">VIEW DETAILS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight 6: My Hero Academia -->
+      <div class="spotlight-container">
+        <img src="./instant/Spotlight6.jpg" alt="MHA">
+          <div class="image-overlay"></div>
+        <div class="spotlight-content">
+          <h2 class="spotlight-title">MY HERO ACADEMIA</h2>
+          <p class="spotlight-synopsis">Izuku Midoriya, a boy born without any powers, dreams of being able to become a superhero too, but gets bullied for his unrealistic dreams. One day, his fate changes in an unexpected meeting with the no.1 hero All Might, and he is given the chance to become his successor and inherit One For All, a quirk with a dark history, which is passed down from successor to successor, who cultivates it with their own power and passes it on, to defeat its brother, All For One.</p>
+          <div class="spotlight-buttons">
+            <button class="play-button" onclick="playAnime('https://aniflix-hindi.netlify.app/video_player.html?embedCode=%3Ciframe%20src%3D%22https%3A%2F%2Ffilemoon.in%2Fe%2Fle0kvwlom6cq%2FS1E01%22%20frameborder%3D%220%22%20marginwidth%3D%220%22%20marginheight%3D%220%22%20scrolling%3D%22no%22%20width%3D%221050%22%20height%3D%22490%22%20allowfullscreen%3E%3C%2Fiframe%3E&title=S1E01&folderId=138643')">PLAY</button>
+            <button class="details-button" onclick="viewDetails('https://aniflix-hindi.netlify.app/detail.html?folderId=138643&folderName=My%20Hero%20Academia%20Season%201&tileImage=https%3A%2F%2Fres.cloudinary.com%2Fdadackhrl%2Fimage%2Fupload%2FMy_Hero_Academia_Season_1_138643_Tile.jpg')">VIEW DETAILS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+
+<div class="trending-container">
+    <div class="trending-overlay"></div>
+  <section class="trending-section">
+    <h2>Trending</h2>
+    
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <div class="trending-tiles">
+      <!-- Repeat this structure for each of the 10 tiles -->
+      <div class="anime-container">
+        <!-- Tile 1 -->
+        <a href="path_to_trending_anime_1.html">
+          <div class="anime-tile">
+            <img src="path_to_trending_anime_1_image.jpg" alt="Trending Anime 1">
+            <div class="overlay">
+              <div class="anime-info">
+                <div class="anime-title">Trending Anime 1</div>
+              </div>
+            </div>
+          </div>
+        </a>
+    </div>
+
+
+  </section>
+</main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const introVideoContainer = document.getElementById('introVideoContainer');
+      const introVideo = document.getElementById('introVideo');
+
+      // Play the video
+      introVideo.play();
+
+      // Set a timeout to hide the video container after 6 seconds
+      setTimeout(function () {
+        removeVideo();
+      }, 6000);
+    });
+
+    function removeVideo() {
+      const introVideoContainer = document.getElementById('introVideoContainer');
+      introVideoContainer.remove();
+
+      // Your existing logic or actions after the video has played
+    }
+
+  const isLoggedIn = false;
+
+  document.addEventListener('DOMContentLoaded', updateLoginStatus);
+
+  function updateLoginStatus() {
+    const loginButton = document.getElementById('loginButton');
+    const signupButton = document.getElementById('signupButton');
+
+    [loginButton, signupButton].forEach(button => {
+      button.style.display = isLoggedIn ? 'none' : 'block';
+    });
+  }
+
+  function login() {
+    alert('Redirecting to login portal');
+  }
+
+  function signup() {
+    alert('Signup button clicked!');
+  }
+document.addEventListener('DOMContentLoaded', function () {
+  const spotlightSynopsisList = document.querySelectorAll('.spotlight-synopsis');
+
+  spotlightSynopsisList.forEach(function (spotlightSynopsis) {
+    const synopsisText = spotlightSynopsis.textContent;
+    const words = synopsisText.split(' ');
+
+    const wordsPerLine = 15;
+    let lines = [];
+
+    while (words.length > 0) {
+      lines.push(words.splice(0, wordsPerLine).join(' '));
+    }
+
+    // Add a red dot before the starting of the synopsis
+    lines[0] = `<span style="color: #ff0000;">&bull;</span> ${lines[0]}`;
+
+    spotlightSynopsis.innerHTML = lines.join('<br>');
+  });
+});
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const spotlights = document.querySelectorAll('.spotlight-container');
+      const totalSpotlights = spotlights.length;
+      const spotlightDuration = 100 / totalSpotlights; // Calculate screen time for each spotlight
+
+      spotlights.forEach((spotlight, index) => {
+        spotlight.style.animationDuration = `${spotlightDuration}s`;
+      });
+
+      let currentSpotlightIndex = 0;
+
+      function updateSpotlights() {
+        spotlights.forEach((spotlight, index) => {
+          spotlight.classList.remove('active');
+        });
+
+        spotlights[currentSpotlightIndex].classList.add('active');
+
+        currentSpotlightIndex = (currentSpotlightIndex + 1) % totalSpotlights;
+
+        setTimeout(updateSpotlights, spotlightDuration * 10000); // Convert seconds to milliseconds
+      }
+
+      updateSpotlights();
+    });document.addEventListener('DOMContentLoaded', function () {
+  const spotlights = document.querySelectorAll('.spotlight-container');
+  const dotsContainer = document.querySelector('.dots-container');
+  let currentSpotlightIndex = 0;
+
+  function updateSpotlights() {
+    spotlights.forEach((spotlight, index) => {
+      spotlight.classList.remove('active');
+    });
+
+    spotlights[currentSpotlightIndex].classList.add('active');
+    updateDots(currentSpotlightIndex);
+  }
+
+  function changeSpotlight(direction) {
+    currentSpotlightIndex = (currentSpotlightIndex + direction + spotlights.length) % spotlights.length;
+    updateSpotlights();
+  }
+
+  function updateDots(activeIndex) {
+    dotsContainer.innerHTML = ''; // Clear existing dots
+
+    for (let i = 0; i < spotlights.length; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      dot.addEventListener('click', function () {
+        changeSpotlight(i - currentSpotlightIndex);
+      });
+
+      dot.classList.toggle('active-dot', i === activeIndex);
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function autoChangeSpotlight() {
+    setInterval(function () {
+      changeSpotlight(1);
+    }, 10000); // Change spotlight every 5 seconds
+  }
+
+  // Initial update to show the first spotlight
+  updateSpotlights();
+  updateDots(currentSpotlightIndex);
+  autoChangeSpotlight();
+
+  // Event listeners for navigation buttons
+  document.querySelector('.prev-button').addEventListener('click', function () {
+    changeSpotlight(-1);
+  });
+
+  document.querySelector('.next-button').addEventListener('click', function () {
+    changeSpotlight(1);
+  });
+});
+function playAnime(animeUrl) {
+  // Redirect to the specified anime URL
+  window.location.href = animeUrl;
+}
+
+function viewDetails(detailsUrl) {
+  // Redirect to the specified details URL
+  window.location.href = detailsUrl;
+}
+</script>
+
+  <footer>
+    <!-- Your existing footer content... -->
+  </footer>
+
+</body>
+
+</html>
